@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>游戏中心 - 挖地雷 & 算24点</title>
+    <link rel="stylesheet" href="minesweeper.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Segoe+UI:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💣</text></svg>">
+</head>
+
+<body>
+    <!-- Tab 导航 -->
+    <div class="tab-navigation">
+        <button class="tab-btn active" data-tab="minesweeper">
+            <i class="fas fa-bomb"></i> 挖地雷
+        </button>
+        <button class="tab-btn" data-tab="twentyfour">
+            <i class="fas fa-calculator"></i> 算24点
+        </button>
+    </div>
+
+    <div class="container">
+        <!-- Tab 内容 -->
+        <div class="tab-content active" id="minesweeper-content">
+        <!-- 游戏标题 -->
+        <header class="game-header">
+            <h1 class="game-title">
+                <i class="fas fa-bomb"></i> Windows经典挖地雷
+                <span class="game-subtitle">Minesweeper</span>
+            </h1>
+            <div class="windows-badge">
+                <i class="fab fa-windows"></i>
+            </div>
+        </header>
+
+        <!-- 游戏控制面板 -->
+        <div class="control-panel">
+            <div class="stats">
+                <div class="stat">
+                    <div class="stat-label">地雷</div>
+                    <div class="stat-value" id="mineCount">10</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-label">时间</div>
+                    <div class="stat-value" id="timer">000</div>
+                </div>
+            </div>
+
+            <div class="game-controls">
+                <button class="control-btn" id="newGame">
+                    <i class="fas fa-redo"></i> 新游戏
+                </button>
+                <button class="control-btn" id="changeDifficulty">
+                    <i class="fas fa-sliders-h"></i> 难度
+                </button>
+                <button class="control-btn" id="helpBtn">
+                    <i class="fas fa-question-circle"></i> 帮助
+                </button>
+            </div>
+        </div>
+
+        <!-- 难度选择 -->
+        <div class="difficulty-selector" id="difficultySelector">
+            <h3>选择难度</h3>
+            <div class="difficulty-options">
+                <button class="difficulty-btn active" data-level="beginner">
+                    <i class="fas fa-smile"></i>
+                    <span>初级</span>
+                    <small>9×9 · 10个地雷</small>
+                </button>
+                <button class="difficulty-btn" data-level="intermediate">
+                    <i class="fas fa-meh"></i>
+                    <span>中级</span>
+                    <small>16×16 · 40个地雷</small>
+                </button>
+                <button class="difficulty-btn" data-level="expert">
+                    <i class="fas fa-frown"></i>
+                    <span>高级</span>
+                    <small>16×30 · 99个地雷</small>
+                </button>
+                <button class="difficulty-btn" data-level="custom">
+                    <i class="fas fa-cog"></i>
+                    <span>自定义</span>
+                    <small>自定义设置</small>
+                </button>
+            </div>
+        </div>
+
+        <!-- 游戏板 -->
+        <div class="game-board-container">
+            <div class="game-board" id="gameBoard">
+                <!-- 游戏网格将通过JavaScript动态生成 -->
+            </div>
+        </div>
+
+        <!-- 游戏状态 -->
+        <div class="game-status" id="gameStatus">
+            <div class="status-message">
+                <i class="fas fa-flag"></i>
+                <span>点击格子开始游戏！</span>
+            </div>
+            <div class="status-stats">
+                <span>已标记: <span id="flaggedCount">0</span></span>
+                <span>已翻开: <span id="revealedCount">0</span></span>
+            </div>
+        </div>
+
+        <!-- 游戏说明 -->
+        <div class="instructions">
+            <h3><i class="fas fa-info-circle"></i> 游戏说明</h3>
+            <div class="instruction-items">
+                <div class="instruction-item">
+                    <div class="instruction-icon">🖱️</div>
+                    <div class="instruction-text">
+                        <strong>左键点击</strong> - 翻开格子
+                    </div>
+                </div>
+                <div class="instruction-item">
+                    <div class="instruction-icon">🚩</div>
+                    <div class="instruction-text">
+                        <strong>右键点击</strong> - 标记/取消标记地雷
+                    </div>
+                </div>
+                <div class="instruction-item">
+                    <div class="instruction-icon">🔢</div>
+                    <div class="instruction-text">
+                        <strong>数字</strong> - 表示周围8个格子中的地雷数量
+                    </div>
+                </div>
+                <div class="instruction-item">
+                    <div class="instruction-icon">💣</div>
+                    <div class="instruction-text">
+                        <strong>地雷</strong> - 避开红色地雷格子
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 自定义难度设置 -->
+        <div class="custom-settings" id="customSettings">
+            <h3>自定义游戏设置</h3>
+            <div class="setting-row">
+                <div class="setting">
+                    <label for="customRows">行数:</label>
+                    <input type="number" id="customRows" min="5" max="30" value="16">
+                </div>
+                <div class="setting">
+                    <label for="customCols">列数:</label>
+                    <input type="number" id="customCols" min="5" max="30" value="16">
+                </div>
+                <div class="setting">
+                    <label for="customMines">地雷数:</label>
+                    <input type="number" id="customMines" min="1" max="200" value="40">
+                </div>
+            </div>
+            <button class="apply-btn" id="applyCustom">应用设置</button>
+        </div>
+
+        <!-- 底部信息 -->
+        <footer class="game-footer">
+            <p class="footer-text">
+                <i class="fas fa-gamepad"></i> 经典Windows扫雷游戏复刻版
+            </p>
+            <p class="footer-copyright">
+                © 2026 Minesweeper Classic | 使用HTML5, CSS3和JavaScript实现
+            </p>
+            <div class="game-shortcuts">
+                <span>快捷键: <kbd>空格</kbd> - 新游戏 | <kbd>F1</kbd> - 帮助 | <kbd>ESC</kbd> - 返回</span>
+            </div>
+        </footer>
+        </div>
+        <!-- Tab 内容 2: 算24点 -->
+        <div class="tab-content" id="twentyfour-content">
+            <!-- 游戏标题 -->
+            <header class="game-header twentyfour-header">
+                <h1 class="game-title">
+                    <i class="fas fa-calculator"></i> 算24点
+                    <span class="game-subtitle">24 Points</span>
+                </h1>
+            </header>
+
+            <!-- 游戏控制面板 -->
+            <div class="control-panel twentyfour-panel">
+                <div class="stats">
+                    <div class="stat">
+                        <div class="stat-label">得分</div>
+                        <div class="stat-value" id="score">0</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-label">轮次</div>
+                        <div class="stat-value" id="round">1</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-label">剩余时间</div>
+                        <div class="stat-value" id="countdown">60</div>
+                    </div>
+                </div>
+
+                <div class="game-controls">
+                    <button class="control-btn" id="newGame24">
+                        <i class="fas fa-redo"></i> 重新发牌
+                    </button>
+                    <button class="control-btn" id="hintBtn">
+                        <i class="fas fa-lightbulb"></i> 提示
+                    </button>
+                </div>
+            </div>
+
+            <!-- 扑克牌区域 -->
+            <div class="twentyfour-board">
+                <div class="cards-container" id="cardsContainer">
+                    <!-- 扑克牌将通过 JavaScript 动态生成 -->
+                </div>
+
+                <!-- 计算区域 -->
+                <div class="expression-area">
+                    <div class="expression-display" id="expressionDisplay">
+                        点击上方扑克牌开始计算
+                    </div>
+                    <div class="expression-buttons">
+                        <button class="op-btn" data-op="+">+</button>
+                        <button class="op-btn" data-op="-">−</button>
+                        <button class="op-btn" data-op="×">×</button>
+                        <button class="op-btn" data-op="÷">÷</button>
+                        <button class="op-btn" data-op="(">(</button>
+                        <button class="op-btn" data-op=")">)</button>
+                    </div>
+                    <div class="action-buttons">
+                        <button class="action-btn clear-btn" id="clearExpr">清空</button>
+                        <button class="action-btn submit-btn" id="submitExpr">提交答案</button>
+                    </div>
+                </div>
+
+                <!-- 操作记录 -->
+                <div class="history-area">
+                    <h3><i class="fas fa-history"></i> 计算过程</h3>
+                    <div class="history-list" id="historyList">
+                        <!-- 历史记录 -->
+                    </div>
+                </div>
+
+                <!-- 游戏状态 -->
+                <div class="game-status" id="twentyfourStatus">
+                    <div class="status-message">
+                        <i class="fas fa-cards"></i>
+                        <span>发牌了！使用四张牌计算24点</span>
+                    </div>
+                </div>
+
+                <!-- 游戏说明 -->
+                <div class="instructions twentyfour-instructions">
+                    <h3><i class="fas fa-info-circle"></i> 游戏说明</h3>
+                    <div class="instruction-items">
+                        <div class="instruction-item">
+                            <div class="instruction-icon">♠️</div>
+                            <div class="instruction-text">
+                                <strong>发牌</strong> - 点击"重新发牌"获得四张扑克牌
+                            </div>
+                        </div>
+                        <div class="instruction-item">
+                            <div class="instruction-icon">🔢</div>
+                            <div class="instruction-text">
+                                <strong>计算</strong> - 使用加减乘除运算，凑成24点
+                            </div>
+                        </div>
+                        <div class="instruction-item">
+                            <div class="instruction-icon">⏱️</div>
+                            <div class="instruction-text">
+                                <strong>计时</strong> - 每轮60秒，时间到算挑战失败
+                            </div>
+                        </div>
+                        <div class="instruction-item">
+                            <div class="instruction-icon">💡</div>
+                            <div class="instruction-text">
+                                <strong>提示</strong> - 点击提示按钮查看解题方法
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 底部信息 -->
+            <footer class="game-footer">
+                <p class="footer-text">
+                    <i class="fas fa-brain"></i> 经典24点扑克游戏
+                </p>
+                <p class="footer-copyright">
+                    © 2026 算24点 | 使用HTML5, CSS3和JavaScript实现
+                </p>
+                <div class="game-shortcuts">
+                    <span>快捷键: <kbd>空格</kbd> - 重新发牌 | <kbd>Enter</kbd> - 提交答案 | <kbd>ESC</kbd> - 清空</span>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+    <!-- 音频元素 -->
+    <audio id="clickSound" preload="auto">
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-select-click-1109.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="flagSound" preload="auto">
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-unlock-game-notification-253.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="mineSound" preload="auto">
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-bomb-explosion-2800.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="winSound" preload="auto">
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-winning-chimes-2015.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- 24点游戏音频 -->
+    <audio id="cardSound" preload="auto">
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-playing-card-flip-1.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="correctSound" preload="auto">
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-correct-answer-tone-2870.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="wrongSound" preload="auto">
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-wrong-answer-fail-notification-946.mp3" type="audio/mpeg">
+    </audio>
+
+    <script src="minesweeper.js"></script>
+</body>
+
+</html>

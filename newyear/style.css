@@ -1,0 +1,582 @@
+/* 基础重置和全局样式 */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Noto Sans SC', sans-serif;
+    background: linear-gradient(135deg, #8b0000 0%, #d32f2f 50%, #ff6b6b 100%);
+    color: #fff;
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
+}
+
+
+/* 背景装饰元素 */
+
+.bg-decoration {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: -1;
+}
+
+
+/* 灯笼样式 */
+
+.lantern {
+    position: absolute;
+    width: 80px;
+    height: 120px;
+    background: linear-gradient(to bottom, #ff3333, #cc0000);
+    border-radius: 40px;
+    box-shadow: 0 10px 30px rgba(255, 215, 0, 0.5);
+    top: 20%;
+}
+
+.left-lantern {
+    left: 10%;
+    animation: swingLeft 4s ease-in-out infinite;
+}
+
+.right-lantern {
+    right: 10%;
+    animation: swingRight 4s ease-in-out infinite 0.5s;
+}
+
+.lantern::before {
+    content: '';
+    position: absolute;
+    top: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 40px;
+    height: 20px;
+    background: #ffd700;
+    border-radius: 10px;
+}
+
+.lantern::after {
+    content: '';
+    position: absolute;
+    bottom: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 20px;
+    height: 30px;
+    background: #ffd700;
+    border-radius: 5px;
+}
+
+
+/* 福字样式 */
+
+.fu-character {
+    position: absolute;
+    font-size: 3rem;
+    font-family: 'Ma Shan Zheng', cursive;
+    color: #ffd700;
+    opacity: 0.7;
+    animation: floatDown 15s linear infinite;
+}
+
+.fu-character:nth-child(3) {
+    left: 15%;
+    top: -50px;
+    animation-delay: 0s;
+}
+
+.fu-character:nth-child(4) {
+    left: 50%;
+    top: -50px;
+    animation-delay: 5s;
+}
+
+.fu-character:nth-child(5) {
+    left: 80%;
+    top: -50px;
+    animation-delay: 10s;
+}
+
+
+/* 马装饰 */
+
+.horse-decoration {
+    position: absolute;
+    font-size: 5rem;
+    bottom: 10%;
+    right: 5%;
+    opacity: 0.3;
+    animation: horseMove 20s linear infinite;
+}
+
+
+/* 烟花画布 */
+
+#fireworksCanvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: -1;
+}
+
+
+/* 主容器 */
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+    position: relative;
+    z-index: 1;
+}
+
+
+/* 头部样式 */
+
+.header {
+    text-align: center;
+    margin-bottom: 3rem;
+    position: relative;
+}
+
+.title {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+    text-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.title-text {
+    display: block;
+    font-family: 'Ma Shan Zheng', cursive;
+    color: #ffd700;
+    text-shadow: 3px 3px 0 #d32f2f;
+}
+
+.title-sub {
+    display: block;
+    font-size: 1.5rem;
+    color: #fff;
+    margin-top: 0.5rem;
+    font-weight: 300;
+}
+
+.year-badge {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: #ffd700;
+    color: #d32f2f;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    font-weight: bold;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    animation: pulse 2s infinite;
+}
+
+
+/* 区域标题 */
+
+.section-title {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    color: #ffd700;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.section-title i {
+    font-size: 1.8rem;
+}
+
+
+/* 倒计时区域 */
+
+.countdown-section {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 2rem;
+    margin-bottom: 3rem;
+    border: 2px solid rgba(255, 215, 0, 0.3);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.countdown-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.countdown-item {
+    text-align: center;
+}
+
+.countdown-number {
+    font-size: 4rem;
+    font-weight: bold;
+    background: linear-gradient(45deg, #ffd700, #ff6b00);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    min-width: 100px;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    animation: countdownPulse 1s infinite;
+}
+
+.countdown-label {
+    font-size: 1.2rem;
+    color: #ffd700;
+    margin-top: 0.5rem;
+}
+
+.countdown-separator {
+    font-size: 3rem;
+    color: #ffd700;
+    margin-bottom: 2rem;
+}
+
+.countdown-date {
+    text-align: center;
+    font-size: 1.2rem;
+    color: #fff;
+    opacity: 0.9;
+}
+
+
+/* 祝福语区域 */
+
+.blessings-section {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 2rem;
+    margin-bottom: 3rem;
+    border: 2px solid rgba(255, 215, 0, 0.3);
+}
+
+.blessings-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.blessing-card {
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 15px;
+    padding: 1.5rem;
+    text-align: center;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+}
+
+.blessing-card.active {
+    background: rgba(255, 215, 0, 0.2);
+    border-color: #ffd700;
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(255, 215, 0, 0.3);
+}
+
+.blessing-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+.blessing-text {
+    font-size: 1.3rem;
+    line-height: 1.5;
+}
+
+.next-blessing-btn {
+    display: block;
+    margin: 0 auto;
+    padding: 1rem 2rem;
+    background: linear-gradient(45deg, #ffd700, #ff6b00);
+    color: #8b0000;
+    border: none;
+    border-radius: 50px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(255, 107, 0, 0.4);
+}
+
+.next-blessing-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(255, 107, 0, 0.6);
+}
+
+.next-blessing-btn:active {
+    transform: translateY(0);
+}
+
+
+/* 交互区域 */
+
+.interactive-section {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 2rem;
+    margin-bottom: 3rem;
+    border: 2px solid rgba(255, 215, 0, 0.3);
+}
+
+.interactive-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+}
+
+.interactive-item {
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 15px;
+    padding: 1.5rem;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+}
+
+.interactive-item:hover {
+    background: rgba(255, 215, 0, 0.2);
+    border-color: #ffd700;
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(255, 215, 0, 0.3);
+}
+
+.interactive-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+.interactive-text {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #ffd700;
+    margin-bottom: 0.5rem;
+}
+
+.interactive-desc {
+    font-size: 1rem;
+    opacity: 0.9;
+}
+
+
+/* 底部样式 */
+
+.footer {
+    text-align: center;
+    padding: 2rem;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 20px;
+    margin-top: 2rem;
+}
+
+.footer-text {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: #ffd700;
+}
+
+.footer-text i {
+    margin-right: 0.5rem;
+}
+
+.footer-copyright {
+    font-size: 1rem;
+    opacity: 0.8;
+    margin-bottom: 1.5rem;
+}
+
+.social-icons {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+}
+
+.social-icon {
+    width: 50px;
+    height: 50px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.social-icon:hover {
+    background: rgba(255, 215, 0, 0.3);
+    transform: translateY(-3px);
+}
+
+
+/* 动画定义 */
+
+@keyframes swingLeft {
+    0%,
+    100% {
+        transform: rotate(-5deg);
+    }
+    50% {
+        transform: rotate(5deg);
+    }
+}
+
+@keyframes swingRight {
+    0%,
+    100% {
+        transform: rotate(5deg);
+    }
+    50% {
+        transform: rotate(-5deg);
+    }
+}
+
+@keyframes floatDown {
+    0% {
+        transform: translateY(-100px) rotate(0deg);
+        opacity: 0;
+    }
+    10% {
+        opacity: 0.7;
+    }
+    90% {
+        opacity: 0.7;
+    }
+    100% {
+        transform: translateY(100vh) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+@keyframes horseMove {
+    0%,
+    100% {
+        transform: translateX(0) scale(1);
+    }
+    25% {
+        transform: translateX(-50px) scale(1.1);
+    }
+    50% {
+        transform: translateX(0) scale(1);
+    }
+    75% {
+        transform: translateX(50px) scale(0.9);
+    }
+}
+
+@keyframes pulse {
+    0%,
+    100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+}
+
+@keyframes countdownPulse {
+    0%,
+    100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+}
+
+
+/* 响应式设计 */
+
+@media (max-width: 768px) {
+    .title {
+        font-size: 2.5rem;
+    }
+    .title-sub {
+        font-size: 1.2rem;
+    }
+    .year-badge {
+        width: 60px;
+        height: 60px;
+        font-size: 1.5rem;
+        position: relative;
+        margin: 0 auto 1rem;
+    }
+    .countdown-number {
+        font-size: 2.5rem;
+        min-width: 70px;
+        height: 70px;
+    }
+    .countdown-container {
+        gap: 0.5rem;
+    }
+    .countdown-separator {
+        font-size: 2rem;
+        margin-bottom: 1.5rem;
+    }
+    .section-title {
+        font-size: 1.5rem;
+    }
+    .blessings-container {
+        grid-template-columns: 1fr;
+    }
+    .interactive-container {
+        grid-template-columns: 1fr;
+    }
+    .lantern {
+        width: 50px;
+        height: 80px;
+    }
+    .fu-character {
+        font-size: 2rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 1rem;
+    }
+    .title {
+        font-size: 2rem;
+    }
+    .countdown-number {
+        font-size: 2rem;
+        min-width: 60px;
+        height: 60px;
+    }
+    .countdown-label {
+        font-size: 1rem;
+    }
+}

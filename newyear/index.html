@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>马年大吉 - 春节贺岁</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Sans+SC:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🐎</text></svg>">
+</head>
+
+<body>
+    <!-- 背景装饰元素 -->
+    <div class="bg-decoration">
+        <div class="lantern left-lantern"></div>
+        <div class="lantern right-lantern"></div>
+        <div class="fu-character">福</div>
+        <div class="fu-character">福</div>
+        <div class="fu-character">福</div>
+        <div class="horse-decoration">🐎</div>
+    </div>
+
+    <!-- 烟花画布 -->
+    <canvas id="fireworksCanvas"></canvas>
+
+    <!-- 主容器 -->
+    <div class="container">
+        <!-- 头部 -->
+        <header class="header">
+            <h1 class="title">
+                <span class="title-text">马年大吉</span>
+                <span class="title-sub">新春快乐 · 万事如意</span>
+            </h1>
+            <div class="year-badge">2026</div>
+        </header>
+
+        <!-- 倒计时区域 -->
+        <section class="countdown-section">
+            <h2 class="section-title">
+                <i class="fas fa-clock"></i> 春节倒计时
+            </h2>
+            <div class="countdown-container">
+                <div class="countdown-item">
+                    <div class="countdown-number" id="days">00</div>
+                    <div class="countdown-label">天</div>
+                </div>
+                <div class="countdown-separator">:</div>
+                <div class="countdown-item">
+                    <div class="countdown-number" id="hours">00</div>
+                    <div class="countdown-label">小时</div>
+                </div>
+                <div class="countdown-separator">:</div>
+                <div class="countdown-item">
+                    <div class="countdown-number" id="minutes">00</div>
+                    <div class="countdown-label">分钟</div>
+                </div>
+                <div class="countdown-separator">:</div>
+                <div class="countdown-item">
+                    <div class="countdown-number" id="seconds">00</div>
+                    <div class="countdown-label">秒</div>
+                </div>
+            </div>
+            <p class="countdown-date">2026年春节：2月17日 星期二</p>
+        </section>
+
+        <!-- 祝福语区域 -->
+        <section class="blessings-section">
+            <h2 class="section-title">
+                <i class="fas fa-comment-dots"></i> 新春祝福
+            </h2>
+            <div class="blessings-container">
+                <div class="blessing-card active" id="blessing1">
+                    <div class="blessing-icon">🎉</div>
+                    <p class="blessing-text">祝您马年行大运，万事皆如意！</p>
+                </div>
+                <div class="blessing-card" id="blessing2">
+                    <div class="blessing-icon">💰</div>
+                    <p class="blessing-text">财源广进，富贵吉祥！</p>
+                </div>
+                <div class="blessing-card" id="blessing3">
+                    <div class="blessing-icon">🏮</div>
+                    <p class="blessing-text">阖家欢乐，幸福安康！</p>
+                </div>
+                <div class="blessing-card" id="blessing4">
+                    <div class="blessing-icon">🎊</div>
+                    <p class="blessing-text">事业腾飞，步步高升！</p>
+                </div>
+            </div>
+            <button class="next-blessing-btn" id="nextBlessing">
+                <i class="fas fa-chevron-right"></i> 下一条祝福
+            </button>
+        </section>
+
+        <!-- 交互区域 -->
+        <section class="interactive-section">
+            <h2 class="section-title">
+                <i class="fas fa-magic"></i> 新年互动
+            </h2>
+            <div class="interactive-container">
+                <div class="interactive-item" id="lanternClick">
+                    <div class="interactive-icon">🏮</div>
+                    <p class="interactive-text">点击灯笼</p>
+                    <p class="interactive-desc">点亮新年好运</p>
+                </div>
+                <div class="interactive-item" id="fireworksBtn">
+                    <div class="interactive-icon">🎆</div>
+                    <p class="interactive-text">燃放烟花</p>
+                    <p class="interactive-desc">庆祝新春到来</p>
+                </div>
+                <div class="interactive-item" id="musicToggle">
+                    <div class="interactive-icon">🎵</div>
+                    <p class="interactive-text">新春音乐</p>
+                    <p class="interactive-desc">点击播放/暂停</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 底部 -->
+        <footer class="footer">
+            <p class="footer-text">
+                <i class="fas fa-heart"></i> 恭祝您和家人新春快乐，马年大吉！
+            </p>
+            <p class="footer-copyright">
+                © 2026 春节贺岁页面 | 设计制作：前端开发者
+            </p>
+            <div class="social-icons">
+                <div class="social-icon"><i class="fab fa-weixin"></i></div>
+                <div class="social-icon"><i class="fab fa-qq"></i></div>
+                <div class="social-icon"><i class="fab fa-weibo"></i></div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- 音频元素 -->
+    <audio id="newYearMusic" loop>
+        <source src="https://assets.mixkit.co/music/preview/mixkit-happy-new-year-2025-1294.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="lanternSound">
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-bell-notification-933.mp3" type="audio/mpeg">
+    </audio>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
